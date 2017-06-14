@@ -3,5 +3,6 @@
  */
 
 module.exports = {
-  'serverPort' : '8080'
+  'serverPort' : '8080',
+  'jsonPornApiKey' : '' // get a free API key from json-porn.com
 }
