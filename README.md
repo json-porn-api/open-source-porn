@@ -1,6 +1,8 @@
 # Open Source Porn
 
-Work in progress. Go away.
+## Work in progress. Go away.
+
+This repo contains a Node.js app that can be deployed to the [Google App Engine][appengine]. It is capable of populating WordPress blogs with content from the [JSON Porn API][jsonpornapi].
 
 ## Run Locally
 
@@ -43,6 +45,7 @@ Work in progress. Go away.
 1.  View your deployed application at `https://YOUR_PROJECT_ID.appspot.com`.
 
 
+[jsonpornapi]: http://json-porn.com/
 [nodejs]: https://nodejs.org/
 [appengine]: https://cloud.google.com/appengine/docs/flexible/nodejs/
 [nodejs_dev]: https://cloud.google.com/community/tutorials/how-to-prepare-a-nodejs-dev-environment

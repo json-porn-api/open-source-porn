@@ -1,13 +1,13 @@
 {
-  "name": "appengine-hello-world",
-  "description": "Simple Hello World Node.js sample for Google App Engine Flexible Environment.",
+  "name": "open-source-porn",
+  "description": "App to populate WordPress blogs with content from the JSON Porn API",
   "version": "0.0.1",
   "private": true,
   "license": "Apache-2.0",
-  "author": "Google Inc.",
+  "author": "Steppschuh",
   "repository": {
     "type": "git",
-    "url": "https://github.com/GoogleCloudPlatform/nodejs-docs-samples.git"
+    "url": "https://github.com/json-porn-api/open-source-porn"
   },
   "engines": {
     "node": ">=4.3.2"
@@ -15,26 +15,16 @@
   "scripts": {
     "deploy": "gcloud app deploy",
     "start": "node app.js",
-    "lint": "samples lint",
-    "pretest": "npm run lint",
-    "system-test": "samples test app",
-    "test": "npm run system-test",
-    "e2e-test": "samples test deploy"
+    "lint": "lint"
   },
   "dependencies": {
+    "q": "1.5.0",
     "express": "4.15.2",
+    "express-winston": "~2.3.0",
+    "winston": "~2.3.1",
     "yarn-install": "^0.3.0"
   },
   "devDependencies": {
     "@google-cloud/nodejs-repo-tools": "1.4.14"
-  },
-  "cloud-repo-tools": {
-    "test": {
-      "app": {
-        "msg": "Hello, world!"
-      }
-    },
-    "requiresKeyFile": true,
-    "requiresProjectId": true
   }
 }
