@@ -6,6 +6,7 @@
 
 const http = require('http');
 const https = require('https');
+const querystring = require('querystring')
 const Q = require('Q');
 const log = require('./logging');
 
@@ -21,27 +22,96 @@ function JsonPornAPI(options) {
   return this;
 }
 
-JsonPornAPI.prototype.test = function() {
-  console.log("test=" + this.options.test);
+/**
+ * Creates the base request object that every endpoint uses.
+ */
+JsonPornAPI.prototype.createRequest = function() {
+  const api = this;
+  const request = {};
 
-  this.getRequest("/porn/?count=1", {
-    "key": "value"
-  }).then(function(data) {
-    log.debug('Success:\n' + log.toJsonString(data));
-  }).catch(function(error) {
-    log.warn('Error:\n' + log.toJsonString(error));
-  });
+  request.path = "";
+  request.queryParams = {};
 
-  return this;
+  request.setPath = function(path) {
+    this.path = path;
+    return this;
+  }
+
+  request.setQueryParam = function(key, value) {
+    this.queryParams[key] = value;
+    return this;
+  }
+
+  request.limit = function(count) {
+    return this.setQueryParam("count", count);
+  }
+
+  request.offset = function(offset) {
+    return this.setQueryParam("offset", offset);
+  }
+
+  request.get = function() {
+    return api.getRequest(request.path, request.queryParams);
+  }
+
+  return request;
 }
 
-JsonPornAPI.prototype.getRequest = function(path, params) {
-  var api = this;
+/**
+ * Creates a request object for the porn endpoint.
+ */
+JsonPornAPI.prototype.porn = function() {
+  var request = this.createRequest().setPath("/porn/");
+
+  request.withId = function(id) {
+    return this.setQueryParam("pornId", id);
+  }
+
+  request.withProducerId = function(id) {
+    return this.setQueryParam("producerId", id);
+  }
+
+  request.withGenreId = function(id) {
+    return this.setQueryParam("genreId", id);
+  }
+
+  request.withActorId = function(id) {
+    return this.setQueryParam("actorId", id);
+  }
+
+  request.includeDownloads = function(value) {
+    return this.setQueryParam("includeDownloads", value);
+  }
+
+  request.includeImages = function(value) {
+    return this.setQueryParam("includeImages", value);
+  }
+
+  request.withType = function(type) {
+    return this.setQueryParam("pornType", type);
+  }
+
+  request.clipsOnly = function() {
+    return this.withType(2);
+  }
+
+  request.moviesOnly = function() {
+    return this.withType(4);
+  }
+
+  request.imagesOnly = function() {
+    return this.withType(3);
+  }
+
+  return request;
+}
+
+JsonPornAPI.prototype.getRequest = function(path, queryParams) {
+  const api = this;
   return Q.Promise(function(resolve, reject, notify) {
     // create request options
     const options = api.getDeafaultRequestOptions();
-    options.path = path;
-    // TODO: add params
+    options.path = path + "?" + querystring.stringify(queryParams);
 
     // initiate request
     api.request(options).then(function(responseJson) {
